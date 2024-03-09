@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="static/upload.css">
+</head>
+<body>
+    <h1 class="h1">Resize Setting</h1>
+    <form action="/" method="post" enctype="multipart/form-data">
+    
+    <div class="container">
+        
+
+        <div class="input">
+
+            <div class="input_group">
+                <div class="target_size">
+                  <h2 class="h2">By Dimensions</h2>
+                  <div class="input-group">
+                    <input type="number" class="dimension-input" name="height" placeholder="Height">
+                    <input type="number" class="dimension-input" name="width" placeholder="Width">
+                  </div>
+                </div>
+
+                <div class="target_size">
+                  <h2 class="h22">Target File Size(optional)</h2>
+                  <div class="input-group2">
+                    <input type="number" class="size-input" name="size" placeholder="Size">
+                    <div class="button-container">
+                        <select id="size-toggle-select" name="size_type" class="size-toggle-select">
+                            <option value="kb">KB</option>
+                            <option value="mb">MB</option>
+                        </select>
+                    </div>
+                </div>
+             </div>
+
+           </div>
+            
+            
+            
+        </div>
+
+
+        <div class="left_column">
+            <div class="dashedbox">
+                <!-- <button class="custom-file-button" type="button" id="custom-file-button">Select Image</button> -->
+                
+                
+                {% if data['filepath'] %}
+                <input type="file" id="image-input" name="image-input" style="display: none;" class="file-12" accept="image/png, image/gif, image/jpeg">
+                <input type="hidden" value="{{data['filepath']}}" name="alter_image_input">
+                <input value="Select Image" type="button" for="image-input" class="custom-file-button" id="custom-file-button">
+                
+                <img  id="uploaded-image" src="{{data['filepath']}}" alt="" srcset="" class="show_img">
+                
+                
+                {% else %}
+
+
+
+                <input type="file" id="image-input" name="image-input" style="display: none;" class="file-form" accept="image/png, image/gif, image/jpeg" required>
+                <input value="Select Image" type="button" for="image-input" class="custom-file-button" id="custom-file-button">
+                <img  id="uploaded-image" src="" alt="" srcset="" class="show_img">
+                {% endif %}
+
+            
+            </div>
+            
+
+        </div> 
+    </div>
+
+    <input type="submit" class="resize-button" value="Resize">
+    {% if data['filepath'] %}
+    <a  href="{{data['filepath']}}" download="proposed_file_name">Download</a>
+    {% endif %}
+</form>
+    
+
+    <script>
+       
+        document.getElementById('custom-file-button').addEventListener('click', function() {
+            document.getElementById('image-input').click();
+        });
+
+        document.querySelector('.file-form').addEventListener('change', function(event) {
+            if (event.target.files && event.target.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (event) {
+                    document.getElementById('uploaded-image').src = event.target.result;
+                    document.getElementById('custom-file-button').style.visibility = 'hidden';
+                };
+                reader.readAsDataURL(event.target.files[0]);
+            }
+        });
+
+        document.getElementById('custom-file-button').addEventListener('click', function() {
+        document.getElementById('image-input').click();
+    });
+
+
+    </script>
+</body>
+</html>
